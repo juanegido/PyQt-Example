@@ -20,8 +20,10 @@ class PegGameWindow(QtWidgets.QWidget):
         self.main_menu = QtWidgets.QMenuBar(self)
         file = self.main_menu.addMenu("File")
         quit = QAction('Quit', self)
+        new = QAction('New', self)
+        file.addAction(new)
         file.addAction(quit)
-        file.triggered[QAction].connect(QtWidgets.qApp.quit)
+        quit.triggered.connect(QtWidgets.qApp.quit)
 
         self.show()
 
