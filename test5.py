@@ -1,5 +1,9 @@
 from PyQt5 import QtWidgets
 import sys
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QAction
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import pyqtSlot
+import sys
 
 
 class PegGameWindow(QtWidgets.QWidget):
@@ -11,21 +15,18 @@ class PegGameWindow(QtWidgets.QWidget):
         self.setGeometry(200, 200, 400, 200)
         self.setWindowTitle('Triangle Peg Game')
         self.setToolTip("Play the triangle peg game!")
-
-        self.central_widget = QtWidgets.QWidget(self)
-        self.new_button = StartNewGameBtn(self.central_widget)
-        self.quit_button = QuitBtn(self.central_widget)
-        self.setCentralWidget(self.central_widget)
-
-
-        menu_bar = self.menuBar()
-        menu_bar.setNativeMenuBar(False)
-        file_menu = menu_bar.addMenu('File')
-        file_menu.addAction(QtWidgets.qApp.quit)
-
-
+        self.new_button = StartNewGameBtn(self)
+        self.quit_button = QuitBtn(self)
+        self.main_menu = QtWidgets.QMenuBar(self)
+        file = self.main_menu.addMenu("File")
+        quit = QAction('Quit', self)
+        file.addAction(quit)
+        file.triggered[QAction].connect(QtWidgets.qApp.quit)
 
         self.show()
+
+    def processtrigger(self, q):
+        print('test')
 
     def closeEvent(self, event):
         reply = QuitMessage().exec_()
@@ -48,8 +49,6 @@ class QuitMessage(QtWidgets.QMessageBox):
         self.setText("Do you really want to quit?")
         self.addButton(self.No)
         self.addButton(self.Yes)
-
-
 
 
 class QuitBtn(QtWidgets.QPushButton):
